@@ -47,13 +47,13 @@ def get_bots():
         'Choose Player 2:\n' + bot_list + '\n\n> '))]
 
     with open("bot1.log",'w') as bot1log:
-        bot1 = Popen(['python', 'main.py'],
+        bot1 = Popen(['python2', 'main.py'],
                      cwd=os.path.join(root, bot1_name),
                      stdout=PIPE,
                      stdin=PIPE,
                      stderr=bot1log)
     with open("bot2.log",'w') as bot2log:
-        bot2 = Popen(['python', 'main.py'],
+        bot2 = Popen(['python2', 'main.py'],
                      cwd=os.path.join(root, bot2_name),
                      stdout=PIPE,
                      stdin=PIPE,

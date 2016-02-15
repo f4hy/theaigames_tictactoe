@@ -1,3 +1,5 @@
+#!/usr/bin/env python2
+
 
 def parse_command(instr, bot, pos):
     if instr.startswith('action move'):
@@ -27,22 +29,24 @@ if __name__ == '__main__':
     from position import Position
     from randombot import RandomBot
     import logging
+    import socket
 
-    logging.basicConfig(format='RANDOMBOT %(levelname)s: %(message)s', level=logging.DEBUG)
 
-    root = logging.getLogger()
-    errfilename = "test"+".err"
-    errfilehandler = logging.FileHandler(errfilename, delay=True)
-    errfilehandler.setLevel(logging.WARNING)
-    formatter = logging.Formatter('RANDOMBOT %(levelname)s: %(message)s')
-    errfilehandler.setFormatter(formatter)
-    root.addHandler(errfilehandler)
-    logfilename = "test"+".log"
-    logfilehandler = logging.FileHandler(logfilename, delay=True)
-    logfilehandler.setLevel(logging.DEBUG)
-    formatter = logging.Formatter('RANDOMBOT %(levelname)s: %(message)s')
-    logfilehandler.setFormatter(formatter)
-    root.addHandler(logfilehandler)
+    if 'f4hy' in socket.gethostname() or 'fahy' in socket.gethostname():
+        logging.basicConfig(format='RANDOMBOT %(levelname)s: %(message)s', level=logging.DEBUG)
+        root = logging.getLogger()
+        errfilename = "test"+".err"
+        errfilehandler = logging.FileHandler(errfilename, delay=True)
+        errfilehandler.setLevel(logging.WARNING)
+        formatter = logging.Formatter('RANDOMBOT %(levelname)s: %(message)s')
+        errfilehandler.setFormatter(formatter)
+        root.addHandler(errfilehandler)
+        logfilename = "test"+".log"
+        logfilehandler = logging.FileHandler(logfilename, delay=True)
+        logfilehandler.setLevel(logging.DEBUG)
+        formatter = logging.Formatter('RANDOMBOT %(levelname)s: %(message)s')
+        logfilehandler.setFormatter(formatter)
+        root.addHandler(logfilehandler)
 
     logging.info("starting logging")
 
@@ -51,7 +55,7 @@ if __name__ == '__main__':
 
     while True:
         try:
-            instr = input()
+            instr = raw_input()
             logging.info("instr {}".format(instr))
         except Exception as e:
             logging.warn('error reading input {}'.format(e))
