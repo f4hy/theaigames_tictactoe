@@ -1,5 +1,3 @@
-import logging
-
 def can_score(sb, team):
     # logging.info("checking if {} can win {}".format(team, sb))
 
@@ -13,9 +11,10 @@ def can_score(sb, team):
             continue
         new = list(sb)
         new[loc] = team
-        if won(new,team):
+        if won(new, team):
             return loc
     return False
+
 
 def won(sb, team):
 

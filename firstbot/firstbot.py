@@ -2,7 +2,7 @@ from random import randint
 import logging
 import board
 import sb_logic
-from pprint import pprint, pprint_field
+from pprint import pprint
 
 
 class FirstBot:

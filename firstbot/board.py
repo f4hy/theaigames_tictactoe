@@ -2,16 +2,17 @@ import logging
 import sb_logic
 from pprint import pprint, pprint_field
 
+
 class Board(object):
 
     def __init__(self):
-        self.field = [ [0 for i in range(9)] for j in range(9)]
+        self.field = [[0 for i in range(9)] for j in range(9)]
         self.macroboard = None
 
     def setboard(self, fstr):
         flist = fstr.replace(';', ',').split(',')
         logging.info(flist)
-        self.field = [ int(f) for f in flist ]
+        self.field = [ int(f) for f in flist]
         logging.info("field {}".format(self.field))
         logging.info("board \n{}".format(pprint_field(self.field)))
         logging.info("sb0 board \n{}".format(pprint(self.get_subboard(0))))
@@ -28,15 +29,13 @@ class Board(object):
 
     def updatemacroboard(self, mbstr):
         mblist = mbstr.replace(';', ',').split(',')
-        self.macroboard = [ int(f) for f in mblist ]
+        self.macroboard = [ int(f) for f in mblist]
         logging.info("mboard \n{}".format(pprint(self.macroboard)))
 
-
     def get_subboard(self, index):
-        mx = index%3
+        mx = index % 3
         my = index//3
-        sb = [ self.field[(y)*9+(x)] for y in range(my*3,my*3+3) for x in range(mx*3,mx*3+3)]
-        indexes = [ (x,y,y*9+x) for y in range(my*3,my*3+3) for x in range(mx*3,mx*3+3)]
+        sb = [self.field[(y)*9+(x)] for y in range(my*3, my*3+3) for x in range(mx*3, mx*3+3)]
         return sb
 
     def get_all_subs(self):
@@ -45,17 +44,16 @@ class Board(object):
 
     def winmatrix(self):
         m = {}
-        for t in (1,2):
-            m[t] = [sb_logic.won(sb,t) for sb in self.get_all_subs()]
+        for t in (1, 2):
+            m[t] = [sb_logic.won(sb, t) for sb in self.get_all_subs()]
 
         return m
 
     def canscorematrix(self):
         m = {}
-        for t in (1,2):
-            m[t] = [sb_logic.can_score(sb,t) for sb in self.get_all_subs()]
+        for t in (1, 2):
+            m[t] = [sb_logic.can_score(sb, t) for sb in self.get_all_subs()]
         return m
-
 
     def playable_subs(self):
         allsubs = self.get_all_subs()
@@ -63,8 +61,8 @@ class Board(object):
 
     def locs_to_move(self, b, s):
         """ take a board index and square index and make a move"""
-        mx = b%3
+        mx = b % 3
         my = b//3
-        x = s%3
+        x = s % 3
         y = s//3
         return (mx*3+x, my*3+y)
