@@ -43,9 +43,6 @@ class ScoreBot:
         # logging.info("test2?! {}".format(sb_logic.can_score(testb, 2)))
         # exit(-1)
 
-        if board.macroboard.count(-1) < 1:
-            logging.error("There is no legal moves")
-            return
 
         logging.info("winmat {}".format(board.winmatrix()))
         csm = board.canscorematrix()
@@ -58,6 +55,14 @@ class ScoreBot:
 
 
         logging.info("best moves {}".format(best_moves))
+
+        if len(best_moves) < 1:
+            logging.error("There is no legal moves")
+            for y in range(9):
+                for x in range(9):
+                    if board.field[y*9+x] == 0:
+                        return (x, y)
+
 
         rm = randint(0, len(best_moves)-1)
         logging.info("rm {}".format(rm))

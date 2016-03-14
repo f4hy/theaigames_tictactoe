@@ -53,6 +53,12 @@ class FirstBot:
         # logging.info("board {}".format(board.get_board()))
         lmoves = board.legal_moves()
         logging.info("lmoves {}".format(lmoves))
+        if len(lmoves) < 1:
+            logging.error("There is no legal moves")
+            for y in range(9):
+                for x in range(9):
+                    if board.field[y*9+x] == 0:
+                        return (x, y)
 
         rm = randint(0, len(lmoves)-1)
         logging.info("rm {}".format(rm))

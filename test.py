@@ -2,11 +2,12 @@
 import os
 import sys
 from subprocess import Popen, PIPE, STDOUT
+import argparse
 
 
-def main():
+def main(options):
     # Get robots who are fighting (player1, player2)
-    bot1, bot2 = get_bots()
+    bot1, bot2 = get_bots(options)
     # Simulate game init input
     send_init('1', bot1)
     send_init('2', bot2)
@@ -15,10 +16,12 @@ def main():
     field = ','.join(['0'] * 81)
     macroboard = ','.join(['-1'] * 9)
     print_board(field, macroboard, round_num, '')
-    while True:
+    win1 = win2 = 0
+    while win1 + win2 < options.games:
         for bot_id, bot in [('1', bot1), ('2', bot2)]:
             # Wait for any key
-            raw_input()
+            if not options.nowait:
+                raw_input()
             # Send inputs to bot
             move = send_update(bot, round_num, move, field, macroboard)
             # Update macroboard and game field
@@ -27,12 +30,13 @@ def main():
             # Check for winner. If winner, exit.
             print_board(field, macroboard, round_num, move)
             if is_winner(macroboard):
-                return
+                return is_winner(macroboard)
 
             round_num += 1
 
 
-def get_bots():
+
+def get_bots(options):
     root = os.path.dirname(os.path.realpath(__file__))
     files = os.listdir(root)
     bots = [f for f in files
@@ -41,10 +45,17 @@ def get_bots():
     bot_list = '\n'.join(
         ['{}. {}'.format(i, bot) for i, bot in enumerate(bots)])
 
-    bot1_name = bots[int(raw_input(
-        'Choose Player 1:\n' + bot_list + '\n\n> '))]
-    bot2_name = bots[int(raw_input(
-        'Choose Player 2:\n' + bot_list + '\n\n> '))]
+
+    if not options.bot1:
+        bot1_name = bots[int(raw_input(
+            'Choose Player 1:\n' + bot_list + '\n\n> '))]
+    else:
+        bot1_name = bots[options.bot1]
+    if not options.bot2:
+        bot2_name = bots[int(raw_input(
+            'Choose Player 2:\n' + bot_list + '\n\n> '))]
+    else:
+        bot2_name = bots[options.bot2]
 
     with open("bot1.log",'w') as bot1log:
         bot1 = Popen(['python2', 'main.py'],
@@ -205,10 +216,27 @@ def is_winner(macroboard):
         val = m[opt[0]] + m[opt[1]] + m[opt[2]]
         if val in winners:
             print 'WINNER! Player {}'.format(m[opt[0]])
-            return True
+            return m[opt[0]]
 
     return False
 
 
 if __name__ == '__main__':
-    main()
+
+    parser = argparse.ArgumentParser(description="Run bots")
+    parser.add_argument("-v", "--verbose", action="store_true",
+                        help="increase output verbosity")
+    parser.add_argument("-n", "--nowait", action="store_true",
+                        help="don't wait")
+    parser.add_argument("-g", "--games", type=int, default=1)
+    parser.add_argument("-b1", "--bot1", type=int, default=None)
+    parser.add_argument("-b2", "--bot2", type=int, default=None)
+
+    args = parser.parse_args()
+
+    wins = {'1': 0, '2':0}
+    for i in range(args.games):
+        winner = main(args)
+        wins[winner] += 1
+
+    print wins
