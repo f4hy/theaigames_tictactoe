@@ -55,6 +55,11 @@ class Board(object):
             m[t] = [sb_logic.can_score(sb, t) for sb in self.get_all_subs()]
         return m
 
+    def catsmatrix(self):
+        m = [sb_logic.cats(sb) for sb in self.get_all_subs()]
+        return m
+
+
     def playable_subs(self):
         allsubs = self.get_all_subs()
         return [allsubs[i] for i in range(9) if self.macroboard[i] == -1]

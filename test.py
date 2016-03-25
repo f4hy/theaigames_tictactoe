@@ -46,12 +46,12 @@ def get_bots(options):
         ['{}. {}'.format(i, bot) for i, bot in enumerate(bots)])
 
 
-    if not options.bot1:
+    if options.bot1 is None:
         bot1_name = bots[int(raw_input(
             'Choose Player 1:\n' + bot_list + '\n\n> '))]
     else:
         bot1_name = bots[options.bot1]
-    if not options.bot2:
+    if options.bot2 is None:
         bot2_name = bots[int(raw_input(
             'Choose Player 2:\n' + bot_list + '\n\n> '))]
     else:

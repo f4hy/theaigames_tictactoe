@@ -77,6 +77,7 @@ class ScoreBot:
         score_value = 18.0
         bad_score_value = -12.0
         free_play_value = -8.0
+        cats_play_value = 20.0
 
         center_board_value = 0.5
 
@@ -110,6 +111,14 @@ class ScoreBot:
             if csm[self.oppid][b] is not False:
                 for b2 in range(9):
                     values[b2,b] += bad_score_value
+
+
+        # prioritize letting him play on cats
+        catsmatrix = board.catsmatrix()
+        for b in range(9):
+            if catsmatrix[b] is True:
+                for b2 in range(9):
+                    values[b2,b] += cats_play_value
 
         # don't give him free play
         for b in range(9):

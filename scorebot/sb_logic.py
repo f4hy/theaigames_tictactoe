@@ -31,3 +31,16 @@ def won(sb, team):
             return True
 
     return False
+
+def cats(sb):
+
+    horizontals = [sb[i*3:i*3+3] for i in range(3)]
+    verticals = [sb[i:9:3] for i in range(3)]
+    diags = [sb[0:9:4], sb[2:8:2]]
+    #logging.info("h{} v{} d{}".format(horizontals, verticals, diags))
+    all3 = horizontals + verticals + diags
+
+    for i in all3:
+        if i.count(0) > 1:
+            return False
+    return True
