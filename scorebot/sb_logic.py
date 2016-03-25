@@ -34,6 +34,9 @@ def won(sb, team):
 
 def cats(sb):
 
+    if can_score(sb, 1) or can_score(sb, 2):
+        return False
+
     horizontals = [sb[i*3:i*3+3] for i in range(3)]
     verticals = [sb[i:9:3] for i in range(3)]
     diags = [sb[0:9:4], sb[2:8:2]]

@@ -76,7 +76,7 @@ class ScoreBot:
         lose_board_value = -15.0
         score_value = 18.0
         bad_score_value = -12.0
-        free_play_value = -8.0
+        free_play_value = -18.0
         cats_play_value = 20.0
 
         center_board_value = 0.5

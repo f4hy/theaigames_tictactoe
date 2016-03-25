@@ -33,7 +33,8 @@ def main(options):
                 return is_winner(macroboard)
 
             round_num += 1
-
+            if round_num == 81:
+                return "Draw"
 
 
 def get_bots(options):
@@ -234,7 +235,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    wins = {'1': 0, '2':0}
+    wins = {'1': 0, '2':0, "Draw": 0}
     for i in range(args.games):
         winner = main(args)
         wins[winner] += 1
